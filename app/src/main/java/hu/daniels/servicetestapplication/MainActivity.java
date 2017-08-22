@@ -4,13 +4,11 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
-import android.os.ResultReceiver;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,7 +41,8 @@ public class MainActivity extends AppCompatActivity {
         bindBt.setEnabled(true);
         stopBt.setEnabled(true);
         unbindBt.setEnabled(false);
-        startService(new Intent(this, MainService.class));
+        startService(new Intent(this, SensorDataRecorderService.class));
+        Toast.makeText(getApplicationContext(), "Almafa", Toast.LENGTH_LONG);
     }
 
     public void stopService(View view) {
@@ -51,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         bindBt.setEnabled(false);
         stopBt.setEnabled(false);
         unbindBt.setEnabled(false);
-        stopService(new Intent(this, MainService.class));
+        stopService(new Intent(this, SensorDataRecorderService.class));
     }
 
     public void bindService(View view) {
@@ -60,12 +59,14 @@ public class MainActivity extends AppCompatActivity {
         serviceConn = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
+                Toast.makeText(getApplicationContext(), "Service Connected", Toast.LENGTH_SHORT);
             }
             @Override
             public void onServiceDisconnected(ComponentName name) {
+                Toast.makeText(getApplicationContext(), "Service Disconnected", Toast.LENGTH_SHORT);
             }
         };
-        bindService(new Intent(this, MainService.class), serviceConn, BIND_AUTO_CREATE);
+        bindService(new Intent(this, SensorDataRecorderService.class), serviceConn, BIND_AUTO_CREATE);
     }
 
 
